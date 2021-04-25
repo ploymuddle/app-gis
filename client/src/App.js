@@ -1,7 +1,8 @@
-// import Hello from './HelloMessage';
-// import Excel from './excel';
-// import File from './File';
-import FileExcel from './FileExcel';
+// import Hello from './TestCRUD/HelloMessage';
+// import Excel from './TestUploadFile/excel';
+// import File from './TestUploadFile/File';
+import FileExcel from './TestUploadFile/FileExcel';
+// import Users from './TestCRUD/Users';
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
       {/* <Excel/> */}
       {/* <File/> */}
        <FileExcel/>
+       {/* <hr/> */}
+       {/* <Users/> */}
     </div>
   );
 }

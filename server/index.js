@@ -1,54 +1,74 @@
-"use strict";
-const express = require("express");
-const cors = require("cors");
-const sql = require("mssql");
-
-const app = express();
+ /* MS SQL Server*/
+var express = require("express");
+var app = express();
+const cors = require('cors');
+var sql = require("mssql");
 
 app.use(cors());
 app.use(express.json());
 
-const config = {
+// config for your database
+var config = {
   user: "sa",
   password: "2253",
   server: "localhost",
   database: "user",
   options: {
-    trustedconnection: true,
     enableArithAbort: true,
     instancename: "GISSERVER",
+    encrypt: false,
   },
-  // port: 5000,
 };
 
-app.get('/', (req, res) => 
-{
-        new sql.connect(config, error => 
-        {
-            new sql.Request().query('Select * from student', (err, dataset) => 
-            {   
-                  if(err)
-                  {
-                      console.log(err);
-                      res.send(err);  
-                      return;
-                  }
-                  else
-                  {
-                      console.dir(dataset);  
-                      res.send(JSON.stringify(dataset));  
-                      return;           
-                  }
-            });
-        });
+ // connect to your database
+sql.connect(config, function (err) {
+  if (err) console.log('Database connection failed!', err);
+  else  console.log('Connected to database');
+});
 
-    sql.close();
+app.post('/addData', (req, res) => {
+
+  var request = new sql.Request();
+
+  const name = req.body.obj.name;
+  const age = req.body.obj.age;
+  const number = req.body.obj.number;
+  request.input('name',name);
+  request.input('age',age);
+  request.input('number',number);
+
+  request.query("INSERT INTO student (name, age, number) VALUES(@name,@age,@number)",
+  (err,result) =>{
+      if (err) {
+          console.log(err);
+      } else {
+          res.send('Values inserted');
+      }
+  })
+})
+
+app.get("/getData", function (req, res) {
+
+    // create Request object
+    var request = new sql.Request();
+
+    // query to the database and get the records
+    request.query("SELECT * FROM student", (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result.recordset);
+      }
+    });
 });
 
 
+var server = app.listen(5000, function () {
+  console.log("Server is running..");
+});
 
 
-
+ /* MySQL XAMPP */
 // const express = require('express');
 // const app = express();
 // const mysql = require('mysql');
@@ -57,19 +77,6 @@ app.get('/', (req, res) =>
 
 // app.use(cors());
 // app.use(express.json());
-
-// const config = {
-//     user :'DESKTOP-BIK2HD6\PLOYMUDDLE',
-//     password :'',
-//     server:'DESKTOP-BIK2HD6\\SQLEXPRESS',
-//     database:'user',
-//     options:{
-//         trustedconnection: true,
-//         enableArithAbort : true,
-//         instancename :'SQLEXPRESS'
-//     },
-//     // port : 1433
-// }
 
 // const db = mysql.createConnection({
 //     user: 'root',
@@ -134,7 +141,3 @@ app.get('/', (req, res) =>
 //         }
 //     })
 // })
-
-app.listen('8080', () => {
-    console.log('Server is running on port 8080')
-})
