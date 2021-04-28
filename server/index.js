@@ -12,7 +12,7 @@ var config = {
   user: "sa",
   password: "2253",
   server: "localhost",
-  database: "user",
+  database: "spatialDB",
   options: {
     enableArithAbort: true,
     instancename: "GISSERVER",
@@ -26,23 +26,52 @@ sql.connect(config, function (err) {
   else  console.log('Connected to database');
 });
 
+/* */
+// app.post('/addData', (req, res) => {
+
+//   var request = new sql.Request();
+
+//   const name = req.body.obj.name;
+//   const age = req.body.obj.age;
+//   const number = req.body.obj.number;
+//   request.input('name',name);
+//   request.input('age',age);
+//   request.input('number',number);
+
+//   request.query("INSERT INTO student (name, age, number) VALUES(@name,@age,@number)",
+//   (err,result) =>{
+//       if (err) {
+//           console.log(err);
+//       } else {
+//           res.send('Values inserted');
+//       }
+//   })
+// })
+
 app.post('/addData', (req, res) => {
 
   var request = new sql.Request();
 
-  const name = req.body.obj.name;
-  const age = req.body.obj.age;
-  const number = req.body.obj.number;
-  request.input('name',name);
-  request.input('age',age);
-  request.input('number',number);
+  request.input('country',req.body.obj.country);
+  request.input('city',req.body.obj.city);
+  request.input('year',req.body.obj.Year);
+  request.input('pm25',req.body.obj.pm25);
+  request.input('latitude',req.body.obj.latitude);
+  request.input('longitude',req.body.obj.longitude);
+  request.input('population',req.body.obj.population);
+  request.input('wbinc16_text',req.body.obj.wbinc16_text);
+  request.input('Region',req.body.obj.Region);
+  request.input('conc_pm25',req.body.obj.conc_pm25);
+  request.input('color_pm25',req.body.obj.color_pm25);
+  request.input('Geom',req.body.obj.Geom);
 
-  request.query("INSERT INTO student (name, age, number) VALUES(@name,@age,@number)",
+  request.query("INSERT INTO AirPollutionPM25 (country, city, year, pm25, latitude, longitude, population, wbinc16_text, Region, conc_pm25, color_pm25, Geom) " +
+                            "VALUES(@country, @city, @year, @pm25, @latitude, @longitude, @population, @wbinc16_text, @Region, @conc_pm25, @color_pm25, @Geom)",
   (err,result) =>{
       if (err) {
           console.log(err);
       } else {
-          res.send('Values inserted');
+        console.log('Values inserted');
       }
   })
 })
