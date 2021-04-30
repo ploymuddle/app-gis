@@ -1,5 +1,27 @@
 
 #footer{
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgb(46, 46, 46);
   }
+
+  .text-white {
+    text-align: center;
+    
+  }
+  .copy-div {
+    background-color: #111;
+    text-align: center;
+  }
+
+  p {
+    color: white;
+    font-family: 'Kanit', sans-serif;
+    text-align: center;
+  }
+  
+  
+  .container {
+    margin-top: 50px;
+    margin-right: 120px;
+  }
+
   
