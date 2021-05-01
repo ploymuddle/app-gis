@@ -13,6 +13,7 @@ import Tabs from "react-bootstrap/Tabs";
 import UploadFile from "./Show/UploadFile";
 import Template1 from "./Template1";
 import Template2 from "./Template2";
+import Download from "./Download";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -29,6 +30,8 @@ function App() {
             </Navbar.Text>
           </Navbar.Collapse>
         </Navbar>
+
+        {/* <Download/> */}
 
         {/* <Template /> */}
 

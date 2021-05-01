@@ -1,5 +1,6 @@
 import Axios from "axios";
 import React, { useState } from "react";
+import exportFromJSON from 'export-from-json';
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -12,9 +13,24 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function SearchB() {
   const [dataList, setDataList] = useState([]);
+  
+  const [country, setCountry] = useState("");
 
-  const getDataList = () => {
-    Axios.get("http://localhost:5000/getDataA").then((response) => {
+  const exportFile = (e) => {
+    e.preventDefault();
+    const data = dataList;
+    const fileName = 'download';
+    const exportType = 'csv';
+
+    exportFromJSON({ data, fileName, exportType })
+  };
+
+  const getDataList = (e) => {
+    e.preventDefault();
+
+    Axios.post("http://localhost:5000/getDataB", {
+      country: country,
+    }).then((response) => {
       setDataList(response.data);
     });
   };
@@ -35,6 +51,9 @@ function SearchB() {
                     class="form-control"
                     placeholder="Country"
                     aria-label="Country"
+                    onChange={(event) => {
+                      setCountry(event.target.value);
+                    }}
                   ></input>
                 </Col>
                 
@@ -51,7 +70,7 @@ function SearchB() {
                 </Col>
                 <Col sm={2}>
                   <div className="d-grid gap-2">
-                    <button type="submit" className="btn btn-warning">
+                  <button type="submit" className="btn btn-warning"  onClick={exportFile}>
                       Export
                     </button>
                   </div>
@@ -74,8 +93,8 @@ function SearchB() {
                   {dataList.map((val) => {
                     return (
                       <tr>
-                        <td>{val.country}</td>
-                        <td>{val.average_pm25}</td>
+                        <td>{val.Country}</td>
+                        <td>{val.Average_PM_25}</td>
                       </tr>
                     );
                   })}

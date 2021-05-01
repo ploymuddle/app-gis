@@ -7,15 +7,32 @@ import Card from "react-bootstrap/Card";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
+import exportFromJSON from 'export-from-json';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
 function SearchD() {
   const [dataList, setDataList] = useState([]);
+  const [year, setYear] = useState("");
+  const [color, setColor] = useState("");
 
-  const getDataList = () => {
-    Axios.get("http://localhost:5000/getDataA").then((response) => {
+  const exportFile = (e) => {
+    e.preventDefault();
+    const data = dataList;
+    const fileName = 'download';
+    const exportType = 'csv';
+
+    exportFromJSON({ data, fileName, exportType })
+  };
+
+  const getDataList = (e) => {
+    e.preventDefault();
+
+    Axios.post("http://localhost:5000/getDataD", {
+      year: year,
+      color: color,
+    }).then((response) => {
       setDataList(response.data);
     });
   };
@@ -32,25 +49,34 @@ function SearchD() {
             <Form>
               <Row className="justify-content-md-center">
                 <Col sm={3}>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="year "
-                    aria-label="year "
-                  ></input>
+                <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    onChange={(event) => {
+                      setYear(event.target.value);
+                    }}
+                  >
+                    <option selected >select year</option>
+                    <option value="null" >All</option>
+                    <option value="2015">2015</option>
+              
+                  </select>
                 </Col>
                 <Col sm={3}>
                   <select
                     className="form-select"
                     aria-label="Default select example"
+                    onChange={(event) => {
+                      setColor(event.target.value);
+                    }}
                   >
                     <option selected>color_pm25</option>
-                    <option value="1">green</option>
-                    <option value="2">drakred</option>
-                    <option value="3">red</option>
-                    <option value="1">yellow</option>
-                    <option value="2">drakorange</option>
-                    <option value="3">orange</option>
+                    <option value="green">green</option>
+                    <option value="drakred">drakred</option>
+                    <option value="red">red</option>
+                    <option value="yellow">yellow</option>
+                    <option value="drakorange">drakorange</option>
+                    <option value="orange">orange</option>
                   </select>
                 </Col>
                 <Col sm={2}>
@@ -66,7 +92,7 @@ function SearchD() {
                 </Col>
                 <Col sm={2}>
                   <div className="d-grid gap-2">
-                    <button type="submit" className="btn btn-warning">
+                  <button type="submit" className="btn btn-warning"  onClick={exportFile}>
                       Export
                     </button>
                   </div>
@@ -90,9 +116,9 @@ function SearchD() {
                   {dataList.map((val) => {
                     return (
                       <tr>
-                        <td>{val.year}</td>
-                        <td>{val.color_pm25}</td>
-                        <td>{val.affected_population}</td>
+                        <td>{val.Year}</td>
+                        <td>{val.Color}</td>
+                        <td>{val.Affected_Population}</td>
                       </tr>
                     );
                   })}

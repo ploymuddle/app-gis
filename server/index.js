@@ -91,6 +91,205 @@ app.get("/getData", function (req, res) {
     });
 });
 
+app.post('/getDataA', (req, res) => {
+
+  var request = new sql.Request();
+
+  console.log(req.body.year);
+  request.input('year',req.body.year);
+  request.input('pm25',req.body.pm25);
+
+  if((req.body.year === null || req.body.year === "" ) && ( req.body.pm25 === null || req.body.pm25 === "" )){
+    request.query("SELECT * FROM AirPollutionPM25 ",
+    (err,result) =>{
+        if (err) {
+            console.log(err);
+        } else {
+          res.send(result.recordset);
+          console.log('/getDataA');
+        }
+    })
+  } 
+  else if(req.body.year === null || req.body.year === ""){
+    request.query("SELECT * FROM AirPollutionPM25 WHERE  pm25 > @pm25 ORDER BY pm25",
+    (err,result) =>{
+        if (err) {
+            console.log(err);
+        } else {
+          res.send(result.recordset);
+          console.log('/getDataA - input  pm25 ');
+        }
+    })
+  } 
+  else if (req.body.pm25 == null || req.body.pm25 == ""){
+    request.query("SELECT * FROM AirPollutionPM25 WHERE Year = @year ORDER BY pm25",
+    (err,result) =>{
+        if (err) {
+            console.log(err);
+        } else {
+          res.send(result.recordset);
+          console.log('/getDataA - input Year');
+        }
+    })
+  } 
+  else {
+  request.query("SELECT * FROM AirPollutionPM25 WHERE pm25 > @pm25  AND Year = @year ORDER BY pm25",
+  (err,result) =>{
+      if (err) {
+          console.log(err);
+      } else {
+        res.send(result.recordset);
+        console.log('/getDataA - input pm25 , year');
+      }
+  })
+}
+
+})
+
+app.post('/getDataB', (req, res) => {
+
+  var request = new sql.Request();
+  console.log(req.body.country);
+  request.input('country',req.body.country);
+
+  if((req.body.country === null || req.body.country === "" )){
+    request.query("SELECT country as Country, AVG(pm25) as Average_PM_25 FROM AirPollutionPM25 GROUP BY country ORDER BY AVG(pm25) DESC",
+  (err,result) =>{
+      if (err) {
+          console.log(err);
+      } else {
+        res.send(result.recordset);
+        console.log('/getDataB');
+      }
+  })
+  }
+  else {
+  request.query("SELECT country as Country, AVG(pm25) as Average_PM_25 FROM AirPollutionPM25 WHERE country = @country GROUP BY country ORDER BY AVG(pm25) DESC",
+  (err,result) =>{
+      if (err) {
+          console.log(err);
+      } else {
+        res.send(result.recordset);
+        console.log('/getDataB - input country');
+      }
+  })
+}
+})
+
+app.post('/getDataC', (req, res) => {
+
+  var request = new sql.Request();
+  console.log(req.body.country);
+  request.input('country',req.body.country);
+
+  request.query("SELECT Year , country AS Country , SUM(pm25) AS PM_25 FROM AirPollutionPM25 WHERE country = @country GROUP BY Year, country ORDER BY Year",
+  (err,result) =>{
+      if (err) {
+          console.log(err);
+      } else {
+        res.send(result.recordset);
+        console.log('/getDataC');
+      }
+  })
+})
+
+app.post('/getDataD', (req, res) => {
+
+  var request = new sql.Request();
+  request.input('year',req.body.year);
+  request.input('color',req.body.color);
+
+  if( (req.body.year === null || req.body.year === "") && ( req.body.color === null || req.body.color === "" )){
+    request.query("SELECT Year , color_pm25 as Color , SUM(population) AS Affected_Population FROM AirPollutionPM25 GROUP BY Year, color_pm25",
+    (err,result) =>{
+        if (err) {
+            console.log(err);
+        } else {
+          res.send(result.recordset);
+          console.log('/getDataD - input color_pm25');
+        }
+    })
+  }
+  else if( req.body.year === null || req.body.year === "" ){
+    request.query("SELECT Year , color_pm25 as Color , SUM(population) AS Affected_Population FROM AirPollutionPM25 WHERE color_pm25 = @color GROUP BY Year, color_pm25",
+    (err,result) =>{
+        if (err) {
+            console.log(err);
+        } else {
+          res.send(result.recordset);
+          console.log('/getDataD - input color_pm25');
+        }
+    })
+  }
+  else if( req.body.color === null || req.body.color === "" ){
+    request.query("SELECT Year , color_pm25 as Color , SUM(population) AS Affected_Population FROM AirPollutionPM25 WHERE Year = @year GROUP BY Year, color_pm25",
+    (err,result) =>{
+        if (err) {
+            console.log(err);
+        } else {
+          res.send(result.recordset);
+          console.log('/getDataD - input Year');
+        }
+    })
+  }
+  else{
+  request.query("SELECT Year , color_pm25 as Color , SUM(population) AS Affected_Population FROM AirPollutionPM25 WHERE Year = @year AND color_pm25 = @color GROUP BY Year, color_pm25",
+  (err,result) =>{
+      if (err) {
+          console.log(err);
+      } else {
+        res.send(result.recordset);
+        console.log('/getDataD');
+      }
+  })
+}
+})
+
+app.get("/getColor", function (req, res) {
+
+  // create Request object
+  var request = new sql.Request();
+
+  // query to the database and get the records
+  request.query("SELECT color_pm25 as color FROM AirPollutionPM25  GROUP BY color_pm25", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result.recordset);
+    }
+  });
+});
+
+app.get("/getYear", function (req, res) {
+
+  // create Request object
+  var request = new sql.Request();
+
+  // query to the database and get the records
+  request.query("SELECT Year FROM AirPollutionPM25  GROUP BY Year", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result.recordset);
+    }
+  });
+});
+
+app.get("/getCountry", function (req, res) {
+
+  // create Request object
+  var request = new sql.Request();
+
+  // query to the database and get the records
+  request.query("SELECT country FROM AirPollutionPM25  GROUP BY country", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result.recordset);
+    }
+  });
+});
+
 
 var server = app.listen(5000, function () {
   console.log("Server is running..");
