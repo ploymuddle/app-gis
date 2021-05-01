@@ -82,7 +82,7 @@ app.get("/getData", function (req, res) {
     var request = new sql.Request();
 
     // query to the database and get the records
-    request.query("SELECT * FROM student", (err, result) => {
+    request.query("SELECT * FROM AirPollutionPM25", (err, result) => {
       if (err) {
         console.log(err);
       } else {

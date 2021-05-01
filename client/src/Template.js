@@ -1,108 +1,96 @@
-// import Axios from "axios";
-import { useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
+import Axios from "axios";
+import React, { useState } from "react";
+import * as XLSX from "xlsx";
+
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Nav from "react-bootstrap/Nav";
 import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
-import Form from "react-bootstrap/Form";
-import FormFile from "react-bootstrap/FormFile";
-import Button from "react-bootstrap/Button";
+import Tab from "react-bootstrap/Tab";
+import Nav from "react-bootstrap/Nav";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Template.css";
 
+import TableauEmb from './TableauCom/TableauEmb';
+import Table from './Show/Table';
+import UploadFile from './Show/UploadFile';
+
 function Template() {
 
+
   return (
-    <div className="Container">
-      
-    <Row>
-      <Col>
-        <Card>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Body>
-            <Row>
-              <Col sm={2}></Col>
-              <Col sm={6}>
-                <Form>
-                  <Form.File
-                    id="custom-file"
-                    label="Custom file input"
-                    custom
-                  />
-                </Form>
-              </Col>
-              <Col sm={2}>
-                <Button
-                  type="submit"
-                  variant="warning"
-                  className="mb-2"
-                  block
-                >
-                  Submit
-                </Button>
-              </Col>
-              <Col sm={2}></Col>
-            </Row>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
-    <Row>
-      <Col sm={8}>
-        <Card style={{ height: "50rem" }}>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Body>This is some text within a card body.</Card.Body>
-        </Card>
-      </Col>
-      <Col sm={4}>
-        <Card style={{ height: "25rem" }}>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Body>This is some text within a card body.</Card.Body>
-        </Card>
-      </Col>
-    </Row>
-    <Row>
-      <Col>
-        <Card>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Body>
-            <Table striped bordered hover size="sm">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Username</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td colSpan="2">Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
-  </div>
+    <div className="Template">
+      <Row>
+        <Col>
+          {/* Card Upload File */}
+         <UploadFile/>
+          {/* End Card Upload File  */}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {/* Card Data */}
+          <Card>
+            <Card.Title>Data</Card.Title>
+            <Card.Body>
+              <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Row>
+                  {/* Nav Menu */}
+                  <Col sm={2}>
+                    <Nav variant="pills" className="flex-column">
+                      <Nav.Item>
+                        <Nav.Link eventKey="first">Tab 1</Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link eventKey="second">Tab 2</Nav.Link>
+                      </Nav.Item>
+                    </Nav>
+                  </Col>
+
+                  {/* Content */}
+                  <Col sm={10}>
+                    <Tab.Content>
+                      {/* Content 1 */}
+                      <Tab.Pane eventKey="first">
+                        <Card border="secondary" style={{ height: "50rem" }}>
+                          <Card.Header>first</Card.Header>
+                          <Card.Body>
+                            <Card.Text>
+                            <TableauEmb/>
+                            </Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Tab.Pane>
+
+                      {/* Content 2 */}
+                      <Tab.Pane eventKey="second">
+                        <Card border="secondary" style={{ height: "50rem" }}>
+                          <Card.Header>second</Card.Header>
+                          <Card.Body>
+                            <Card.Text>
+                              Some quick example text to build on the card title
+                              and make up the bulk of the card's content.
+                            </Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Tab.Pane>
+                    </Tab.Content>
+                  </Col>
+                  {/* End Content */}
+                </Row>
+              </Tab.Container>
+            </Card.Body>
+          </Card>
+          {/* End Card Data */}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {/* Table  */}
+          {/* <Table/> */}
+          {/* End table  */}
+        </Col>
+      </Row>
+    </div>
   );
 }
 
