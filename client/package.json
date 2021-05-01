@@ -13,6 +13,8 @@
     "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "tableau-api": "^2.2.3",
+    "tableau-react": "^1.2.2",
     "web-vitals": "^1.1.1",
     "xlsx": "^0.16.9"
   },
