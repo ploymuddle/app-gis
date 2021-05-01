@@ -4,84 +4,50 @@ import * as XLSX from "xlsx";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
 import Tab from "react-bootstrap/Tab";
-import Nav from "react-bootstrap/Nav";
+import Tabs from "react-bootstrap/Tabs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Template.css";
 
-import TableauEmb from './TableauCom/TableauEmb';
-import Table from './Show/Table';
-import UploadFile from './Show/UploadFile';
+import UploadFile from "./Show/UploadFile";
+import Template1 from "./Template1";
+import Template2 from "./Template2";
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function Template() {
-
-
   return (
     <div className="Template">
       <Row>
         <Col>
           {/* Card Upload File */}
-         <UploadFile/>
+          <UploadFile />
           {/* End Card Upload File  */}
         </Col>
       </Row>
+
       <Row>
+        {/* Card Data */}
         <Col>
-          {/* Card Data */}
-          <Card>
-            <Card.Title>Data</Card.Title>
-            <Card.Body>
-              <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                <Row>
-                  {/* Nav Menu */}
-                  <Col sm={2}>
-                    <Nav variant="pills" className="flex-column">
-                      <Nav.Item>
-                        <Nav.Link eventKey="first">Tab 1</Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link eventKey="second">Tab 2</Nav.Link>
-                      </Nav.Item>
-                    </Nav>
-                  </Col>
-
-                  {/* Content */}
-                  <Col sm={10}>
-                    <Tab.Content>
-                      {/* Content 1 */}
-                      <Tab.Pane eventKey="first">
-                        <Card border="secondary" style={{ height: "50rem" }}>
-                          <Card.Header>first</Card.Header>
-                          <Card.Body>
-                            <Card.Text>
-                            <TableauEmb/>
-                            </Card.Text>
-                          </Card.Body>
-                        </Card>
-                      </Tab.Pane>
-
-                      {/* Content 2 */}
-                      <Tab.Pane eventKey="second">
-                        <Card border="secondary" style={{ height: "50rem" }}>
-                          <Card.Header>second</Card.Header>
-                          <Card.Body>
-                            <Card.Text>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card's content.
-                            </Card.Text>
-                          </Card.Body>
-                        </Card>
-                      </Tab.Pane>
-                    </Tab.Content>
-                  </Col>
-                  {/* End Content */}
-                </Row>
-              </Tab.Container>
-            </Card.Body>
-          </Card>
-          {/* End Card Data */}
+        <Router>
+          <Tabs defaultActiveKey="template1" id="uncontrolled-tab-example">
+            {/*template1 */}
+       <Tab eventKey="template1" title="Show [5]">
+              <Template1/>
+            </Tab>
+            {/*template2 */}
+            <Tab eventKey="template2" title="Export [4]">
+            <Template2/>
+            </Tab>
+          </Tabs>
+        </Router>
         </Col>
+        {/* End Card Data */}
       </Row>
       <Row>
         <Col>
