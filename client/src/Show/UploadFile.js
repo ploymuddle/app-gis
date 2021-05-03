@@ -77,8 +77,8 @@ function UploadFile() {
   };
 
   return (
-    <div className="Template">
-      <Card>
+    <div className="">
+      <Card >
         <Card.Title>Upload Excel File </Card.Title>
         <Card.Body>
           <Row>

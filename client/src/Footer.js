@@ -1,15 +1,15 @@
-// import Axios from "axios";
-import { useState } from "react";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+
+// import { useState } from "react";
+// import Container from "react-bootstrap/Container";
+// import Col from "react-bootstrap/Col";
+// import Row from "react-bootstrap/Row";
 import "./Footer.css";
 
 function Footer() {
 
   return (
     <div >
-      <div id="footer" className="text-center p-3">
+      {/* <div id="footer" className="text-center p-3">
         <Container>
           <Row>
             <Col sm={8}>
@@ -46,10 +46,10 @@ function Footer() {
   
         </Container>
 
-      </div>
-      <div className="copy-div">
-          <a className="text-white" href="https://mdbootstrap.com/">
-          © 2020 Copyright : MDBootstrap.com
+      </div> */}
+      <div className="fixed-bottom  copy-div">
+          <a className="text-muted" href="https://github.com/ploymuddle/ppp.git">
+          © 2020 Copyright : github.kmitl
           </a>
         </div>
     </div>

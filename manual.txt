@@ -1,0 +1,35 @@
+#client
+
+// Terminal
+cd client
+npm i
+npm start
+>>>>url: http://localhost:3000/
+
+
+
+#server
+
+// config file
+index.js 
+
+// config for your database **
+change value ...
+  user: "...",
+  password: "...",
+  server: "localhost",
+  database: "...",
+  options: {
+    enableArithAbort: true,
+    instancename: "...", 
+    encrypt: false,
+  },
+};
+
+// Terminal
+cd server
+npm i 
+npm run dev
+>>>>url: http://localhost:5000/...   
+
+Table AirPollutionPM25
