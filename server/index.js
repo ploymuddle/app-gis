@@ -52,6 +52,7 @@ app.post("/addData", (req, res) => {
   var request = new sql.Request();
   if (req.body.obj.country === null || req.body.obj.country === "") {
     console.log("country = null");
+    res.send("Values null");
   }
   else {
     
@@ -74,8 +75,10 @@ app.post("/addData", (req, res) => {
       (err, result) => {
         if (err) {
           console.log(err);
+          res.send(err);
         } else {
           console.log("Values inserted");
+          res.send("Values inserted");
         }
       }
     );

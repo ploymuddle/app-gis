@@ -152,20 +152,21 @@ function SearchA() {
 
             <div className="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
               {isSearched && (
-                <table className="table table-striped  table-hover">
+                <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                 {/* <table className="table table-striped  table-hover"> */}
                   <thead>
                     <tr>
-                      <th scope="col">country</th>
-                      <th scope="col">city</th>
-                      <th scope="col">year</th>
-                      <th scope="col">pm25</th>
-                      <th scope="col">latitude</th>
-                      <th scope="col">longitude</th>
-                      <th scope="col">population</th>
-                      <th scope="col">wbinc16_text</th>
-                      <th scope="col">Region</th>
-                      <th scope="col">conc_pm25</th>
-                      <th scope="col">color_pm25</th>
+                      <th class="th-sm">country</th>
+                      <th class="th-sm">city</th>
+                      <th class="th-sm">year</th>
+                      <th class="th-sm">pm25</th>
+                      <th class="th-sm">latitude</th>
+                      <th class="th-sm">longitude</th>
+                      <th class="th-sm">population</th>
+                      <th class="th-sm">wbinc16_text</th>
+                      <th class="th-sm">Region</th>
+                      <th class="th-sm">conc_pm25</th>
+                      <th class="th-sm">color_pm25</th>
                     </tr>
                   </thead>
                   <tbody>

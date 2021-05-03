@@ -81,16 +81,20 @@ function App() {
           </Navbar.Collapse>
         </Navbar>
 
-        <div className="Template" style={{ height: "36rem" }}>
-          <Row>
+        <div style={{ height: "36rem" }}>
+          {/* <Row> */}
             {/* Card Data */}
-            <Col>
+
               <Switch>
                 <Route path="/Template2">
+                <div className="Template" >
                   <Template2 />
+                  </div>
                 </Route>
                 <Route path="/Template3">
+                <div className="Template" >
                   <Template3 />
+                  </div>
                 </Route>
                 <Route path="/home">
                   <Template1 />
@@ -99,9 +103,9 @@ function App() {
                   <Template1 />
                 </Route>
               </Switch>
-            </Col>
+  
             {/* End Card Data */}
-          </Row>
+          {/* </Row> */}
         </div>
 
         <Footer />

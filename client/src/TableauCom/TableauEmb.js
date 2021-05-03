@@ -5,7 +5,7 @@ const { tableau } = window;
 
 function TableauEmb(){
     const ref = useRef(null);
-    const url = "https://public.tableau.com/views/LearnEmbeddedAnalytics/SalesOverviewDashboard?:language=en&:display_count=y&:origin=viz_share_link";
+    const url = "https://prod-apnortheast-a.online.tableau.com/t/tableauau/views/Spatial_PM25_Map/Story1?:origin=card_share_link&:embed=n";
    
     const option = {
         device: "desktop",
