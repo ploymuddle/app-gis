@@ -1,12 +1,10 @@
-import Axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
-import Form from "react-bootstrap/Form";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Template.css";
@@ -19,8 +17,9 @@ function Template2() {
 
   return (
     <div className="Template2">
+      {/* <h3>Data Export</h3> */}
       <Card>
-        <Card.Title>Data Export</Card.Title>
+        {/* <Card.Title>Data Export</Card.Title> */}
         <Card.Body>
           <Tab.Container id="left-tabs-example" defaultActiveKey="a">
             <Row>
