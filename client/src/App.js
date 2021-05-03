@@ -33,7 +33,7 @@ function App() {
             <Nav.Item>
               <Nav.Link href="/home">
                 <NavLink to="/home" activeStyle={{ color: "white" }}>
-                  Home
+                  Maps
                 </NavLink>
               </Nav.Link>
             </Nav.Item>
@@ -56,55 +56,66 @@ function App() {
           </Nav>
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-             จัดทำโดย:         {["bottom"].map((placement) => (
-          <OverlayTrigger
-            trigger="click"
-            key={placement}
-            placement={placement}
-            overlay={
-              <Popover bg="dark" id={`popover-positioned-${placement}`}>
-                {/* <Popover.Title as="h3"></Popover.Title> */}
-                <Popover.Content>
-                  <p><strong>60050212</strong> Ploypilin Bunprasoet</p>
-                  <p><strong>60050262</strong> Siravit Kittidecha </p>
-                  <p><strong>60050273</strong> Atiwath Chimthiam </p>
-                  <p><strong>60050212</strong> Ploypilin </p>
-                  <p><strong>60050212</strong> Ploypilin </p>
-                </Popover.Content>
-              </Popover>
-            }
-          >
-             <a href="#login">สมาชิก</a>
-          </OverlayTrigger>
-        ))}
+              Develop By:{" "}
+              {["bottom"].map((placement) => (
+                <OverlayTrigger
+                  trigger="click"
+                  key={placement}
+                  placement={placement}
+                  overlay={
+                    <Popover bg="dark" id={`popover-positioned-${placement}`}>
+                      {/* <Popover.Title as="h3"></Popover.Title> */}
+                      <Popover.Content>
+                        <p>
+                          <strong>60050174</strong> Dullayut Thabthimthong{" "}
+                        </p>
+                        <p>
+                          <strong>60050212</strong> Ploypilin Bunprasoet
+                        </p>
+                        <p>
+                          <strong>60050262</strong> Siravit Kittidecha{" "}
+                        </p>
+                        <p>
+                          <strong>60050268</strong> Suphaphorn Khanngoen{" "}
+                        </p>
+                        <p>
+                          <strong>60050273</strong> Atiwath Chimthiam{" "}
+                        </p>
+                      </Popover.Content>
+                    </Popover>
+                  }
+                >
+                  <a href="#login">Team</a>
+                </OverlayTrigger>
+              ))}
             </Navbar.Text>
           </Navbar.Collapse>
         </Navbar>
 
         <div style={{ height: "36rem" }}>
           {/* <Row> */}
-            {/* Card Data */}
+          {/* Card Data */}
 
-              <Switch>
-                <Route path="/Template2">
-                <div className="Template" >
-                  <Template2 />
-                  </div>
-                </Route>
-                <Route path="/Template3">
-                <div className="Template" >
-                  <Template3 />
-                  </div>
-                </Route>
-                <Route path="/home">
-                  <Template1 />
-                </Route>
-                <Route path="/">
-                  <Template1 />
-                </Route>
-              </Switch>
-  
-            {/* End Card Data */}
+          <Switch>
+            <Route path="/Template2">
+              <div className="Template">
+                <Template2 />
+              </div>
+            </Route>
+            <Route path="/Template3">
+              <div className="Template">
+                <Template3 />
+              </div>
+            </Route>
+            <Route path="/home">
+              <Template1 />
+            </Route>
+            <Route path="/">
+              <Template1 />
+            </Route>
+          </Switch>
+
+          {/* End Card Data */}
           {/* </Row> */}
         </div>
 

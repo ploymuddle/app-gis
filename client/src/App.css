@@ -57,3 +57,11 @@ a > .active {
   margin-right: 2rem;
   margin-top: 1rem;
 }
+.my-custom-scrollbar {
+  position: relative;
+  height: 200px;
+  overflow: auto;
+  }
+  .table-wrapper-scroll-y {
+  display: block;
+  }
