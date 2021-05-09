@@ -26,51 +26,30 @@ sql.connect(config, function (err) {
   else console.log("Connected to database");
 });
 
-/* */
-// app.post('/addData', (req, res) => {
-
-//   var request = new sql.Request();
-
-//   const name = req.body.obj.name;
-//   const age = req.body.obj.age;
-//   const number = req.body.obj.number;
-//   request.input('name',name);
-//   request.input('age',age);
-//   request.input('number',number);
-
-//   request.query("INSERT INTO student (name, age, number) VALUES(@name,@age,@number)",
-//   (err,result) =>{
-//       if (err) {
-//           console.log(err);
-//       } else {
-//           res.send('Values inserted');
-//       }
-//   })
-// })
 
 app.post("/addData", (req, res) => {
   var request = new sql.Request();
   if (req.body.obj.country === null || req.body.obj.country === "") {
-    console.log("country = null");
+    console.log("null");
     res.send("Values null");
   }
   else {
     
-    request.input("country", req.body.obj.country);
-    request.input("city", req.body.obj.city);
-    request.input("year", req.body.obj.Year);
-    request.input("pm25", req.body.obj.pm25);
-    request.input("latitude", req.body.obj.latitude);
-    request.input("longitude", req.body.obj.longitude);
-    request.input("population", req.body.obj.population);
-    request.input("wbinc16_text", req.body.obj.wbinc16_text);
-    request.input("Region", req.body.obj.Region);
-    request.input("conc_pm25", req.body.obj.conc_pm25);
-    request.input("color_pm25", req.body.obj.color_pm25);
+    request.input("country", sql.NVarChar(255) , req.body.obj.country);
+    request.input("city", sql.NVarChar(255) ,req.body.obj.city);
+    request.input("year" ,sql.Int, parseInt(req.body.obj.Year, 10));
+    request.input("pm25", sql.Float, req.body.obj.pm25);
+    request.input("latitude", sql.Float, req.body.obj.latitude);
+    request.input("longitude", sql.Float, req.body.obj.longitude);
+    request.input("population", sql.Float, req.body.obj.population);
+    request.input("wbinc16_text", sql.NVarChar(255) ,req.body.obj.wbinc16_text);
+    request.input("Region",sql.NVarChar(255) , req.body.obj.Region);
+    request.input("conc_pm25", sql.NVarChar(255) , req.body.obj.conc_pm25);
+    request.input("color_pm25", sql.NVarChar(255) ,req.body.obj.color_pm25);
     request.input("Geom", req.body.obj.Geom);
 
     request.query(
-      "INSERT INTO AirPollutionPM25 (country, city, year, pm25, latitude, longitude, population, wbinc16_text, Region, conc_pm25, color_pm25, Geom) " +
+      "INSERT INTO AirPollutionPM25 (country, city, Year, pm25, latitude, longitude, population, wbinc16_text, Region, conc_pm25, color_pm25, Geom) " +
         "VALUES(@country, @city, @year, @pm25, @latitude, @longitude, @population, @wbinc16_text, @Region, @conc_pm25, @color_pm25, @Geom)",
       (err, result) => {
         if (err) {
@@ -82,6 +61,7 @@ app.post("/addData", (req, res) => {
         }
       }
     );
+
   }
 });
 
@@ -272,7 +252,7 @@ app.get("/getColor", function (req, res) {
 
   // query to the database and get the records
   request.query(
-    "SELECT color_pm25 as color FROM AirPollutionPM25  GROUP BY color_pm25",
+    "SELECT color_pm25 as color FROM AirPollutionPM25  GROUP BY color_pm25 ORDER BY color_pm25",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -289,7 +269,7 @@ app.get("/getYear", function (req, res) {
 
   // query to the database and get the records
   request.query(
-    "SELECT Year FROM AirPollutionPM25  GROUP BY Year",
+    "SELECT Year FROM AirPollutionPM25  GROUP BY Year ORDER BY Year",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -306,7 +286,7 @@ app.get("/getCountry", function (req, res) {
 
   // query to the database and get the records
   request.query(
-    "SELECT country FROM AirPollutionPM25  GROUP BY country",
+    "SELECT country FROM AirPollutionPM25  GROUP BY country ORDER BY country",
     (err, result) => {
       if (err) {
         console.log(err);

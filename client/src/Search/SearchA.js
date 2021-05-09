@@ -120,7 +120,7 @@ function SearchA() {
                     }}
                   >
                     <option selected value="">
-                      All
+                      All Year
                     </option>
                     {yearList.map((val) => {
                       return <option value={val.Year}>{val.Year}</option>;
@@ -162,13 +162,13 @@ function SearchA() {
                       <th class="th-sm">City</th>
                       <th class="th-sm">Year</th>
                       <th class="th-sm">PM25</th>
-                      <th class="th-sm">latitude</th>
-                      <th class="th-sm">longitude</th>
-                      <th class="th-sm">Population</th>
-                      <th class="th-sm">Income</th>
-                      <th class="th-sm">Region</th>
-                      <th class="th-sm">conc_pm25</th>
-                      <th class="th-sm">color_pm25</th>
+                      {/* <th class="th-sm">latitude</th> */}
+                      {/* <th class="th-sm">longitude</th> */}
+                      {/* <th class="th-sm">Population</th> */}
+                      {/* <th class="th-sm">Income</th> */}
+                      {/* <th class="th-sm">Region</th> */}
+                      {/* <th class="th-sm">conc_pm25</th> */}
+                      {/* <th class="th-sm">color_pm25</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -184,13 +184,13 @@ function SearchA() {
                             <td>{val.city}</td>
                             <td>{val.Year}</td>
                             <td>{val.pm25}</td>
-                            <td>{val.latitude}</td>
-                            <td>{val.longitude}</td>
-                            <td>{val.population}</td>
-                            <td>{val.wbinc16_text}</td>
-                            <td>{val.Region}</td>
-                            <td>{val.conc_pm25}</td>
-                            <td>{val.color_pm25}</td>
+                            {/* <td>{val.latitude}</td> */}
+                            {/* <td>{val.longitude}</td> */}
+                            {/* <td>{val.population}</td> */}
+                            {/* <td>{val.wbinc16_text}</td> */}
+                            {/* <td>{val.Region}</td> */}
+                            {/* <td>{val.conc_pm25}</td> */}
+                            {/* <td>{val.color_pm25}</td> */}
                           </tr>
                         );
                       })

@@ -18,7 +18,9 @@ function UploadFile() {
   const [message, setMessage] = useState("");
 
   const readFile = () => {
+    setDataList([]);
     // XLSX.utils.json_to_sheet(data, 'out.xlsx');
+    
     if (file) {
       setShowFail(false);
       const fileReader = new FileReader();
@@ -60,6 +62,7 @@ function UploadFile() {
   };
 
   const addData = (csv) => {
+    console.log("start add Data");
     var lines = csv.split("\n");
     var max = lines.length;
 
@@ -96,6 +99,7 @@ function UploadFile() {
           .catch((error) => {
             setMessage(error.message);
             setShowFail(true);
+            // setShowSuccess(false);
           });
       }
     }
