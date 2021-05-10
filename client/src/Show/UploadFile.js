@@ -17,71 +17,66 @@ function UploadFile() {
   const [showFail, setShowFail] = useState(false);
   const [message, setMessage] = useState("");
 
+  //excel -> csv
   const readFile = () => {
     setDataList([]);
-    // XLSX.utils.json_to_sheet(data, 'out.xlsx');
-    
+
     if (file) {
       setShowFail(false);
+
       const fileReader = new FileReader();
       fileReader.readAsBinaryString(file);
-      // event = on_file_select event
+
       fileReader.onload = (event) => {
         /* Parse data */
         const dataParse = event.target.result;
         const workbook = XLSX.read(dataParse, { type: "binary" });
-        console.log(workbook);
+        // console.log(workbook);
 
         /* Get first worksheet */
         const wsname = workbook.SheetNames[0];
         const ws = workbook.Sheets[wsname];
-        /* Convert array of arrays */
+
+        /* Convert excel to csv */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+
         /* Update state */
         // console.log("Data>>>" + data); // shows that excel data is read
         // console.log(convertToJson(data)); // shows data in json format
-        
 
         workbook.SheetNames.forEach((sheet) => {
-          const rowObject = XLSX.utils.sheet_to_row_object_array(
-            workbook.Sheets[sheet]
-          );
-          console.log(rowObject);
-          // console.log(JSON.stringify(rowObject, undefined, 4));
-        
+          //sent csv to addData
           addData(data);
-    
         });
       };
     } else {
-      
-            setMessage("No File");
-            setShowFail(true);
-            setShowSuccess(false);
+      setMessage("No File");
+      setShowFail(true);
+      setShowSuccess(false);
     }
   };
 
   const addData = (csv) => {
     console.log("start add Data");
+
+    //split row
     var lines = csv.split("\n");
     var max = lines.length;
-
-    // var result = [];
-
+    //split row headers
     var headers = lines[0].split(",");
 
-   if(headers[0]==="country") {
+    //check column 1 = country
+    if (headers[0] === "country") {
+      for (var i = 1; i < max; i++) {
+        var obj = {};
+        //split row data
+        var currentline = lines[i].split(",");
+        //data split in currentline to obj
+        for (var j = 0; j < headers.length; j++) {
+          obj[headers[j]] = currentline[j];
+        }
 
-    for (var i = 1; i < max; i++) {
-
-      var obj = {};
-      var currentline = lines[i].split(",");
-
-      for (var j = 0; j < headers.length; j++) {
-        obj[headers[j]] = currentline[j];
-      }
-
-      if (obj.name !== "") {
+        //sent row data to server index.js
         Axios.post("http://localhost:5000/addData", {
           obj: obj,
         })
@@ -99,49 +94,36 @@ function UploadFile() {
           .catch((error) => {
             setMessage(error.message);
             setShowFail(true);
-            // setShowSuccess(false);
           });
       }
+    } else {
+      setMessage("File not match");
+      setShowFail(true);
+      setShowSuccess(false);
     }
-  } else {
-    setMessage("File not match");
-    setShowFail(true);
-    setShowSuccess(false);
-  }
-    // console.log(JSON.stringify(result));
   };
 
   return (
-    <div className="">
-      <Alert variant="danger" show={showFail} onClose={() => setShowFail(false)} dismissible>
+    <div>
+      {/* Alert Fail */}
+      <Alert
+        variant="danger"
+        show={showFail}
+        onClose={() => setShowFail(false)}
+        dismissible
+      >
         <Alert.Heading>{message}!</Alert.Heading>
       </Alert>
 
-      <Alert variant="success" show={showSuccess} onClose={() => setShowSuccess(false)} dismissible>
+      {/* Alert Success */}
+      <Alert
+        variant="success"
+        show={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        dismissible
+      >
         <Alert.Heading>{message}!</Alert.Heading>
       </Alert>
-      {/* <Row>
-        <Col xs={12}>
-          <Toast
-            onClose={() => setShow(false)}
-            show={show}
-            // delay={3000}
-            autohide
-            className="toast align-items-center text-white bg-primary border-0"
-          >
-            <Toast.Header>
-              <img
-                src="holder.js/20x20?text=%20"
-                className="rounded mr-2"
-                alt=""
-              />
-              <strong className="mr-auto">Bootstrap</strong>
-              <small>11 mins ago</small>
-            </Toast.Header>
-            <Toast.Body>{err}</Toast.Body>
-          </Toast>
-        </Col>
-      </Row> */}
 
       <Card>
         <Card.Title>Upload Excel File </Card.Title>

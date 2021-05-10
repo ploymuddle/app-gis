@@ -26,10 +26,12 @@ function App() {
   return (
     <Router>
       <div className="App">
+        {/* Navbar */}
         <Navbar bg="dark" variant="dark">
           <Navbar.Brand href="#home">PM2.5</Navbar.Brand>
           <Navbar.Toggle />
           <Nav className="sticky-top justify-content-center" activeKey="/home">
+            {/* Menu Maps for 5.  */}
             <Nav.Item>
               <Nav.Link href="/home">
                 <NavLink to="/home" activeStyle={{ color: "white" }}>
@@ -37,7 +39,7 @@ function App() {
                 </NavLink>
               </Nav.Link>
             </Nav.Item>
-
+            {/* Menu Search data for 4. */}
             <Nav.Item>
               <Nav.Link href="/Template2">
                 <NavLink to="/Template2" activeStyle={{ color: "white" }}>
@@ -45,7 +47,7 @@ function App() {
                 </NavLink>
               </Nav.Link>
             </Nav.Item>
-
+            {/* Menu Upload file for 2. */}
             <Nav.Item>
               <Nav.Link href="/Template2">
                 <NavLink to="/Template3" activeStyle={{ color: "white" }}>
@@ -54,6 +56,7 @@ function App() {
               </Nav.Link>
             </Nav.Item>
           </Nav>
+
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
               Develop By:{" "}
@@ -93,8 +96,6 @@ function App() {
         </Navbar>
 
         <div style={{ height: "36rem" }}>
-          {/* <Row> */}
-          {/* Card Data */}
 
           <Switch>
             <Route path="/Template2">
@@ -115,8 +116,6 @@ function App() {
             </Route>
           </Switch>
 
-          {/* End Card Data */}
-          {/* </Row> */}
         </div>
 
         <Footer />

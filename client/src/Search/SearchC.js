@@ -16,6 +16,7 @@ function SearchC() {
   const [isSearched, setIsSearched] = useState(false);
   const [isExport, setIsExport] = useState(true);
 
+  //export file csv
   const exportFile = (e) => {
     e.preventDefault();
     const data = dataList;
@@ -25,12 +26,13 @@ function SearchC() {
     exportFromJSON({ data, fileName, exportType })
   };
 
+  //Get Dropdown Country
   const getDropdrow = () => {
     Axios.get("http://localhost:5000/getCountry").then((response) => {
       setDropdrow(response.data);
     });
   };
-
+//Get data user input
   const getDataList = (e) => {
     e.preventDefault();
 

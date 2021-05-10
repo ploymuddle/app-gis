@@ -26,28 +26,31 @@ sql.connect(config, function (err) {
   else console.log("Connected to database");
 });
 
-
+//Insert data
 app.post("/addData", (req, res) => {
+  // create Request object
   var request = new sql.Request();
+
+  //check in row by country = null
   if (req.body.obj.country === null || req.body.obj.country === "") {
     console.log("null");
     res.send("Values null");
-  }
-  else {
-    
-    request.input("country", sql.NVarChar(255) , req.body.obj.country);
-    request.input("city", sql.NVarChar(255) ,req.body.obj.city);
-    request.input("year" ,sql.Int, parseInt(req.body.obj.Year, 10));
+  } else {
+    //set data
+    request.input("country", sql.NVarChar(255), req.body.obj.country);
+    request.input("city", sql.NVarChar(255), req.body.obj.city);
+    request.input("year", sql.Int, parseInt(req.body.obj.Year, 10));
     request.input("pm25", sql.Float, req.body.obj.pm25);
     request.input("latitude", sql.Float, req.body.obj.latitude);
     request.input("longitude", sql.Float, req.body.obj.longitude);
     request.input("population", sql.Float, req.body.obj.population);
-    request.input("wbinc16_text", sql.NVarChar(255) ,req.body.obj.wbinc16_text);
-    request.input("Region",sql.NVarChar(255) , req.body.obj.Region);
-    request.input("conc_pm25", sql.NVarChar(255) , req.body.obj.conc_pm25);
-    request.input("color_pm25", sql.NVarChar(255) ,req.body.obj.color_pm25);
+    request.input("wbinc16_text", sql.NVarChar(255), req.body.obj.wbinc16_text);
+    request.input("Region", sql.NVarChar(255), req.body.obj.Region);
+    request.input("conc_pm25", sql.NVarChar(255), req.body.obj.conc_pm25);
+    request.input("color_pm25", sql.NVarChar(255), req.body.obj.color_pm25);
     request.input("Geom", req.body.obj.Geom);
 
+    //insert data
     request.query(
       "INSERT INTO AirPollutionPM25 (country, city, Year, pm25, latitude, longitude, population, wbinc16_text, Region, conc_pm25, color_pm25, Geom) " +
         "VALUES(@country, @city, @year, @pm25, @latitude, @longitude, @population, @wbinc16_text, @Region, @conc_pm25, @color_pm25, @Geom)",
@@ -61,15 +64,14 @@ app.post("/addData", (req, res) => {
         }
       }
     );
-
   }
 });
 
+//Get data All
 app.get("/getData", function (req, res) {
   // create Request object
   var request = new sql.Request();
 
-  // query to the database and get the records
   request.query("SELECT * FROM AirPollutionPM25", (err, result) => {
     if (err) {
       console.log(err);
@@ -79,13 +81,17 @@ app.get("/getData", function (req, res) {
   });
 });
 
+//Get data query a).
 app.post("/getDataA", (req, res) => {
+  // create Request object
   var request = new sql.Request();
 
+  //set data
   console.log(req.body.year);
   request.input("year", req.body.year);
   request.input("pm25", req.body.pm25);
 
+  //query when not input
   if (
     (req.body.year === null || req.body.year === "") &&
     (req.body.pm25 === null || req.body.pm25 === "")
@@ -98,7 +104,9 @@ app.post("/getDataA", (req, res) => {
         console.log("/getDataA");
       }
     });
-  } else if (req.body.year === null || req.body.year === "") {
+  }
+  //query when input pm2.5
+  else if (req.body.year === null || req.body.year === "") {
     request.query(
       "SELECT * FROM AirPollutionPM25 WHERE  pm25 > @pm25 ORDER BY pm25",
       (err, result) => {
@@ -110,7 +118,9 @@ app.post("/getDataA", (req, res) => {
         }
       }
     );
-  } else if (req.body.pm25 == null || req.body.pm25 == "") {
+  } 
+  //query when input year
+  else if (req.body.pm25 == null || req.body.pm25 == "") {
     request.query(
       "SELECT * FROM AirPollutionPM25 WHERE Year = @year ORDER BY pm25",
       (err, result) => {
@@ -122,7 +132,9 @@ app.post("/getDataA", (req, res) => {
         }
       }
     );
-  } else {
+  } 
+  //query when input year and pm2.5
+  else {
     request.query(
       "SELECT * FROM AirPollutionPM25 WHERE pm25 > @pm25  AND Year = @year ORDER BY pm25",
       (err, result) => {
@@ -137,11 +149,13 @@ app.post("/getDataA", (req, res) => {
   }
 });
 
+//Get data query b).
 app.post("/getDataB", (req, res) => {
   var request = new sql.Request();
   console.log(req.body.country);
   request.input("country", req.body.country);
 
+  //query when not input
   if (req.body.country === null || req.body.country === "") {
     request.query(
       "SELECT country as Country, AVG(pm25) as Average_PM_25 FROM AirPollutionPM25 GROUP BY country ORDER BY AVG(pm25) DESC",
@@ -154,7 +168,9 @@ app.post("/getDataB", (req, res) => {
         }
       }
     );
-  } else {
+  } 
+  //query when input country
+  else {
     request.query(
       "SELECT country as Country, AVG(pm25) as Average_PM_25 FROM AirPollutionPM25 WHERE country = @country GROUP BY country ORDER BY AVG(pm25) DESC",
       (err, result) => {
@@ -169,11 +185,13 @@ app.post("/getDataB", (req, res) => {
   }
 });
 
+//Get data query c).
 app.post("/getDataC", (req, res) => {
   var request = new sql.Request();
   console.log(req.body.country);
   request.input("country", req.body.country);
-
+  
+  //query when input country
   request.query(
     "SELECT Year , country AS Country , SUM(pm25) AS PM_25 FROM AirPollutionPM25 WHERE country = @country GROUP BY Year, country ORDER BY Year",
     (err, result) => {
@@ -187,11 +205,13 @@ app.post("/getDataC", (req, res) => {
   );
 });
 
+//Get data query d).
 app.post("/getDataD", (req, res) => {
   var request = new sql.Request();
   request.input("year", req.body.year);
   request.input("color", req.body.color);
 
+  //query when not input
   if (
     (req.body.year === null || req.body.year === "") &&
     (req.body.color === null || req.body.color === "")
@@ -207,7 +227,9 @@ app.post("/getDataD", (req, res) => {
         }
       }
     );
-  } else if (req.body.year === null || req.body.year === "") {
+  } 
+  //query when input color_pm25
+  else if (req.body.year === null || req.body.year === "") {
     request.query(
       "SELECT Year , color_pm25 as Color , SUM(population) AS Affected_Population FROM AirPollutionPM25 WHERE color_pm25 = @color GROUP BY Year, color_pm25",
       (err, result) => {
@@ -219,7 +241,9 @@ app.post("/getDataD", (req, res) => {
         }
       }
     );
-  } else if (req.body.color === null || req.body.color === "") {
+  } 
+  //query when input year 
+  else if (req.body.color === null || req.body.color === "") {
     request.query(
       "SELECT Year , color_pm25 as Color , SUM(population) AS Affected_Population FROM AirPollutionPM25 WHERE Year = @year GROUP BY Year, color_pm25",
       (err, result) => {
@@ -231,7 +255,9 @@ app.post("/getDataD", (req, res) => {
         }
       }
     );
-  } else {
+  } 
+  //query when input year and color_pm25
+  else {
     request.query(
       "SELECT Year , color_pm25 as Color , SUM(population) AS Affected_Population FROM AirPollutionPM25 WHERE Year = @year AND color_pm25 = @color GROUP BY Year, color_pm25",
       (err, result) => {
@@ -246,6 +272,7 @@ app.post("/getDataD", (req, res) => {
   }
 });
 
+//Get Dropdown Color
 app.get("/getColor", function (req, res) {
   // create Request object
   var request = new sql.Request();
@@ -263,6 +290,7 @@ app.get("/getColor", function (req, res) {
   );
 });
 
+//Get Dropdown Year
 app.get("/getYear", function (req, res) {
   // create Request object
   var request = new sql.Request();
@@ -280,6 +308,7 @@ app.get("/getYear", function (req, res) {
   );
 });
 
+//Get Dropdown Country
 app.get("/getCountry", function (req, res) {
   // create Request object
   var request = new sql.Request();
@@ -297,80 +326,7 @@ app.get("/getCountry", function (req, res) {
   );
 });
 
+//port server run
 var server = app.listen(5000, function () {
   console.log("Server is running..");
 });
-
-/* MySQL XAMPP */
-// const express = require('express');
-// const app = express();
-// const mysql = require('mysql');
-// const cors = require('cors');
-// const mssql= require('mssql');
-
-// app.use(cors());
-// app.use(express.json());
-
-// const db = mysql.createConnection({
-//     user: 'root',
-//     host: 'localhost',
-//     password: '',
-//     database: 'user'
-// })
-
-// app.post('/addData', (req, res) => {
-//     // console.log(req.body.obj.name)
-//     const name = req.body.obj.name;
-//     const age = req.body.obj.age;
-//     const number = req.body.obj.number;
-
-//     db.query("INSERT INTO profile (name, age, number) VALUES(?,?,?)",
-//     [name, age, number],
-//     (err,result) =>{
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send('Values inserted');
-//         }
-//     })
-// })
-
-// app.get('/user', (req, res) => {
-//     db.query("SELECT * FROM profile", (err,result) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send(result);
-//         }
-//     })
-// })
-
-// app.post('/create', (req, res) => {
-//     const name = req.body.name;
-//     const age = req.body.age;
-//     const number = req.body.number;
-
-//     db.query("INSERT INTO profile (name, age, number) VALUES(?,?,?)",
-//     [name, age, number],
-//     (err,result) =>{
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send('Values inserted');
-//         }
-//     })
-// })
-
-// app.put('/update', (req, res) => {
-//     const id = req.body.id;
-//     const number = req.body.number;
-
-//     db.query('UPDATE profile SET number = ? WHERE id = ?', [number, id],
-//     (err,result)=> {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send(result);
-//         }
-//     })
-// })

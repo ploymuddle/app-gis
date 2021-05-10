@@ -18,6 +18,7 @@ function SearchD() {
   const [isSearched, setIsSearched] = useState(false);
   const [isExport, setIsExport] = useState(true);
 
+  //export file csv
   const exportFile = (e) => {
     e.preventDefault();
     const data = dataList;
@@ -27,6 +28,7 @@ function SearchD() {
     exportFromJSON({ data, fileName, exportType });
   };
 
+  //Get Dropdown Color
   const getColorList = (e) => {
     e.preventDefault();
     Axios.get("http://localhost:5000/getColor").then((response) => {
@@ -34,12 +36,14 @@ function SearchD() {
     });
   };
 
+  //Get Dropdown Year
   const getYearList = () => {
     Axios.get("http://localhost:5000/getYear").then((response) => {
       setYearList(response.data);
     });
   };
 
+  //Get data user input
   const getDataList = (e) => {
     e.preventDefault();
 

@@ -31,6 +31,7 @@ function SearchA() {
     text: 'Product Price'
   }];
 
+  //export file csv
   const exportFile = (e) => {
     e.preventDefault();
     const data = dataList;
@@ -40,12 +41,14 @@ function SearchA() {
     exportFromJSON({ data, fileName, exportType });
   };
 
+  //Get Dropdown Year
   const getYearList = () => {
     Axios.get("http://localhost:5000/getYear").then((response) => {
       setYearList(response.data);
     });
   };
 
+  //Get data user input
   const getDataList = (e) => {
     e.preventDefault();
 
@@ -59,6 +62,7 @@ function SearchA() {
     setIsExport(false);
   };
 
+  //Get data
   const getDataListA = (e) => {
     e.preventDefault();
 
