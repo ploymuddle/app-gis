@@ -1,6 +1,9 @@
 import Axios from "axios";
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import React, { useState } from "react";
 import exportFromJSON from "export-from-json";
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -17,6 +20,18 @@ function SearchA() {
   const [isSearched, setIsSearched] = useState(false);
   const [isExport, setIsExport] = useState(true);
 
+  const columns = [{
+    dataField: 'id',
+    text: 'Product ID'
+  }, {
+    dataField: 'name',
+    text: 'Product Name'
+  }, {
+    dataField: 'price',
+    text: 'Product Price'
+  }];
+
+  //export file csv
   const exportFile = (e) => {
     e.preventDefault();
     const data = dataList;
@@ -26,12 +41,14 @@ function SearchA() {
     exportFromJSON({ data, fileName, exportType });
   };
 
+  //Get Dropdown Year
   const getYearList = () => {
     Axios.get("http://localhost:5000/getYear").then((response) => {
       setYearList(response.data);
     });
   };
 
+  //Get data user input
   const getDataList = (e) => {
     e.preventDefault();
 
@@ -45,6 +62,7 @@ function SearchA() {
     setIsExport(false);
   };
 
+  //Get data
   const getDataListA = (e) => {
     e.preventDefault();
 
@@ -59,7 +77,7 @@ function SearchA() {
   };
 
   return (
-    <div className="SearchA">
+    <div className="App">
       <Card style={{ height: "30rem" }}>
         <Card.Title>
           <Row>
@@ -67,31 +85,20 @@ function SearchA() {
               a) List country and city names whose PM 2.5 values are greater
               than 50 in 2015.
             </Col>
-            <Col sm={1}>
+            <Col sm={2}>
               <div className="d-grid gap-2">
                 <button
                   type="submit"
                   className="btn btn-outline-primary btn-sm"
                   onClick={getDataListA}
                 >
-                  Search
-                </button>
-              </div>
-            </Col>
-            <Col sm={1}>
-              <div className="d-grid gap-2">
-                <button
-                  type="submit"
-                  className="btn btn-outline-warning btn-sm"
-                  disabled={isExport}
-                  onClick={exportFile}
-                >
-                  Export
+                  ค้นหาตามโจทย์
                 </button>
               </div>
             </Col>
           </Row>
         </Card.Title>
+
         <Card.Body>
           <Card.Text>
             <Form>
@@ -117,7 +124,7 @@ function SearchA() {
                     }}
                   >
                     <option selected value="">
-                      All
+                      All Year
                     </option>
                     {yearList.map((val) => {
                       return <option value={val.Year}>{val.Year}</option>;
@@ -149,23 +156,23 @@ function SearchA() {
                 </Col>
               </Row>
             </Form>
-
             <div className="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
               {isSearched && (
-                <table className="table table-striped  table-hover">
+                <table id="dtBasicExample" class="table table-bordered table-sm  table-hover" cellspacing="0" width="100%">
+                 {/* <table className="table table-striped  table-hover"> */}
                   <thead>
                     <tr>
-                      <th scope="col">country</th>
-                      <th scope="col">city</th>
-                      <th scope="col">year</th>
-                      <th scope="col">pm25</th>
-                      <th scope="col">latitude</th>
-                      <th scope="col">longitude</th>
-                      <th scope="col">population</th>
-                      <th scope="col">wbinc16_text</th>
-                      <th scope="col">Region</th>
-                      <th scope="col">conc_pm25</th>
-                      <th scope="col">color_pm25</th>
+                      <th class="th-sm">Country</th>
+                      <th class="th-sm">City</th>
+                      <th class="th-sm">Year</th>
+                      <th class="th-sm">PM25</th>
+                      {/* <th class="th-sm">latitude</th> */}
+                      {/* <th class="th-sm">longitude</th> */}
+                      {/* <th class="th-sm">Population</th> */}
+                      {/* <th class="th-sm">Income</th> */}
+                      {/* <th class="th-sm">Region</th> */}
+                      {/* <th class="th-sm">conc_pm25</th> */}
+                      {/* <th class="th-sm">color_pm25</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -181,13 +188,13 @@ function SearchA() {
                             <td>{val.city}</td>
                             <td>{val.Year}</td>
                             <td>{val.pm25}</td>
-                            <td>{val.latitude}</td>
-                            <td>{val.longitude}</td>
-                            <td>{val.population}</td>
-                            <td>{val.wbinc16_text}</td>
-                            <td>{val.Region}</td>
-                            <td>{val.conc_pm25}</td>
-                            <td>{val.color_pm25}</td>
+                            {/* <td>{val.latitude}</td> */}
+                            {/* <td>{val.longitude}</td> */}
+                            {/* <td>{val.population}</td> */}
+                            {/* <td>{val.wbinc16_text}</td> */}
+                            {/* <td>{val.Region}</td> */}
+                            {/* <td>{val.conc_pm25}</td> */}
+                            {/* <td>{val.color_pm25}</td> */}
                           </tr>
                         );
                       })

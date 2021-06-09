@@ -16,6 +16,7 @@ function SearchC() {
   const [isSearched, setIsSearched] = useState(false);
   const [isExport, setIsExport] = useState(true);
 
+  //export file csv
   const exportFile = (e) => {
     e.preventDefault();
     const data = dataList;
@@ -25,12 +26,13 @@ function SearchC() {
     exportFromJSON({ data, fileName, exportType })
   };
 
+  //Get Dropdown Country
   const getDropdrow = () => {
     Axios.get("http://localhost:5000/getCountry").then((response) => {
       setDropdrow(response.data);
     });
   };
-
+//Get data user input
   const getDataList = (e) => {
     e.preventDefault();
 
@@ -44,7 +46,7 @@ function SearchC() {
   };
 
   return (
-    <div className="SearchC">
+    <div className="App">
       <Card style={{ height: "30rem" }}>
         <Card.Title>
           c) Given a (country_input) from the user, show a historical PM 2.5 values by year.
@@ -91,14 +93,14 @@ function SearchC() {
               </Row>
             </Form>
 
-            <div className="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+            <div className="table-responsive table-wrapper-scroll-x my-custom-scrollbar">
             {isSearched && (
               <table className="table table-striped  table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">year</th>
-                    <th scope="col">country</th>
-                    <th scope="col">pm25</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">PM25</th>
                   </tr>
                 </thead>
                 <tbody>

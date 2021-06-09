@@ -16,6 +16,7 @@ function SearchB() {
   const [isSearched, setIsSearched] = useState(false);
   const [isExport, setIsExport] = useState(true);
 
+    //export file csv
   const exportFile = (e) => {
     e.preventDefault();
     const data = dataList;
@@ -25,12 +26,14 @@ function SearchB() {
     exportFromJSON({ data, fileName, exportType });
   };
 
+  //Get Dropdown Country
   const getDropdrow = () => {
     Axios.get("http://localhost:5000/getCountry").then((response) => {
       setDropdrow(response.data);
     });
   };
 
+  //Get Data  user input
   const getDataList = (e) => {
     e.preventDefault();
 
@@ -43,6 +46,7 @@ function SearchB() {
     setIsExport(false);
   };
 
+  //Get Data not input
   const getDataListB = (e) => {
     e.preventDefault();
 
@@ -56,7 +60,7 @@ function SearchB() {
   };
 
   return (
-    <div className="SearchB">
+    <div className="App">
       <Card style={{ height: "30rem" }}>
         <Card.Title>
           <Row>
@@ -64,26 +68,14 @@ function SearchB() {
               b) Calculate the AVG(PM 2.5) by country (show the results in a
               decreasing order).
             </Col>
-            <Col sm={1}>
+            <Col sm={2}>
               <div className="d-grid gap-2">
                 <button
                   type="submit"
                   className="btn btn-outline-primary btn-sm"
                   onClick={getDataListB}
                 >
-                  Search
-                </button>
-              </div>
-            </Col>
-            <Col sm={1}>
-              <div className="d-grid gap-2">
-                <button
-                  type="submit"
-                  className="btn btn-outline-warning btn-sm"
-                  disabled={isExport}
-                  onClick={exportFile}
-                >
-                  Export
+                          ค้นหาตามโจทย์
                 </button>
               </div>
             </Col>
@@ -103,7 +95,7 @@ function SearchB() {
                     }}
                   >
                     <option selected value="">
-                      All
+                      All Country
                     </option>
                     {dropdrow.map((val) => {
                       return <option value={val.country}>{val.country}</option>;
@@ -137,13 +129,13 @@ function SearchB() {
               </Row>
             </Form>
 
-            <div className="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+            <div className="table-responsive table-wrapper-scroll-x my-custom-scrollbar">
               {isSearched && (
                 <table className="table table-striped  table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">country</th>
-                      <th scope="col">average_pm25</th>
+                      <th scope="col">Country</th>
+                      <th scope="col">Average_pm25</th>
                     </tr>
                   </thead>
                   <tbody>

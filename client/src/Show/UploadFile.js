@@ -5,80 +5,127 @@ import * as XLSX from "xlsx";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
+import Toast from "react-bootstrap/Toast";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 
 function UploadFile() {
   const [file, setFile] = useState();
   const [dataList, setDataList] = useState([]);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFail, setShowFail] = useState(false);
+  const [message, setMessage] = useState("");
 
+  //excel -> csv
   const readFile = () => {
-    // XLSX.utils.json_to_sheet(data, 'out.xlsx');
+    setDataList([]);
+
     if (file) {
+      setShowFail(false);
+
       const fileReader = new FileReader();
       fileReader.readAsBinaryString(file);
-      // event = on_file_select event
+
       fileReader.onload = (event) => {
         /* Parse data */
         const dataParse = event.target.result;
         const workbook = XLSX.read(dataParse, { type: "binary" });
-        console.log(workbook);
+        // console.log(workbook);
 
         /* Get first worksheet */
         const wsname = workbook.SheetNames[0];
         const ws = workbook.Sheets[wsname];
-        /* Convert array of arrays */
+
+        /* Convert excel to csv */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+
         /* Update state */
-        console.log("Data>>>" + data); // shows that excel data is read
+        // console.log("Data>>>" + data); // shows that excel data is read
         // console.log(convertToJson(data)); // shows data in json format
 
         workbook.SheetNames.forEach((sheet) => {
-          const rowObject = XLSX.utils.sheet_to_row_object_array(
-            workbook.Sheets[sheet]
-          );
-          console.log(rowObject);
-          // setJsonData(JSON.stringify(rowObject, undefined, 4));
+          //sent csv to addData
           addData(data);
         });
       };
+    } else {
+      setMessage("No File");
+      setShowFail(true);
+      setShowSuccess(false);
     }
   };
 
   const addData = (csv) => {
+    console.log("start add Data");
+
+    //split row
     var lines = csv.split("\n");
-
-    // var result = [];
-
+    var max = lines.length;
+    //split row headers
     var headers = lines[0].split(",");
-    // console.log(headers);
-    for (var i = 1; i < lines.length; i++) {
-      var obj = {};
-      var currentline = lines[i].split(",");
 
-      for (var j = 0; j < headers.length; j++) {
-        obj[headers[j]] = currentline[j];
-      }
+    //check column 1 = country
+    if (headers[0] === "country") {
+      for (var i = 1; i < max; i++) {
+        var obj = {};
+        //split row data
+        var currentline = lines[i].split(",");
+        //data split in currentline to obj
+        for (var j = 0; j < headers.length; j++) {
+          obj[headers[j]] = currentline[j];
+        }
 
-      if (obj.name !== "") {
+        //sent row data to server index.js
         Axios.post("http://localhost:5000/addData", {
           obj: obj,
-        }).then(() => {
-          setDataList([
-            ...dataList,
-            {
-              obj: obj,
-            },
-          ]);
-        });
+        })
+          .then(() => {
+            setDataList([
+              ...dataList,
+              {
+                obj: obj,
+              },
+            ]);
+            setMessage("success");
+            setShowSuccess(true);
+            setShowFail(false);
+          })
+          .catch((error) => {
+            setMessage(error.message);
+            setShowFail(true);
+          });
       }
+    } else {
+      setMessage("File not match");
+      setShowFail(true);
+      setShowSuccess(false);
     }
-    // console.log(JSON.stringify(result));
   };
 
   return (
-    <div className="">
-      <Card >
+    <div>
+      {/* Alert Fail */}
+      <Alert
+        variant="danger"
+        show={showFail}
+        onClose={() => setShowFail(false)}
+        dismissible
+      >
+        <Alert.Heading>{message}!</Alert.Heading>
+      </Alert>
+
+      {/* Alert Success */}
+      <Alert
+        variant="success"
+        show={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        dismissible
+      >
+        <Alert.Heading>{message}!</Alert.Heading>
+      </Alert>
+
+      <Card>
         <Card.Title>Upload Excel File </Card.Title>
         <Card.Body>
           <Row>

@@ -18,6 +18,7 @@ function SearchD() {
   const [isSearched, setIsSearched] = useState(false);
   const [isExport, setIsExport] = useState(true);
 
+  //export file csv
   const exportFile = (e) => {
     e.preventDefault();
     const data = dataList;
@@ -27,6 +28,7 @@ function SearchD() {
     exportFromJSON({ data, fileName, exportType });
   };
 
+  //Get Dropdown Color
   const getColorList = (e) => {
     e.preventDefault();
     Axios.get("http://localhost:5000/getColor").then((response) => {
@@ -34,12 +36,14 @@ function SearchD() {
     });
   };
 
+  //Get Dropdown Year
   const getYearList = () => {
     Axios.get("http://localhost:5000/getYear").then((response) => {
       setYearList(response.data);
     });
   };
 
+  //Get data user input
   const getDataList = (e) => {
     e.preventDefault();
 
@@ -55,7 +59,7 @@ function SearchD() {
   };
 
   return (
-    <div className="SearchD">
+    <div className="App">
       <Card style={{ height: "30rem" }}>
         <Card.Title>
           d) Given a (year_input) and an input of (color_pm25) level of health
@@ -126,14 +130,14 @@ function SearchD() {
               </Row>
             </Form>
 
-            <div className="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+            <div className="table-responsive table-wrapper-scroll-x my-custom-scrollbar">
               {isSearched && (
                 <table className="table table-striped  table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">year</th>
-                      <th scope="col">color_pm25</th>
-                      <th scope="col">affected_population</th>
+                      <th scope="col">Year</th>
+                      <th scope="col">Color_PM25</th>
+                      <th scope="col">Affected_Population</th>
                     </tr>
                   </thead>
                   <tbody>
